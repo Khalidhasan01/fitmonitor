@@ -1,0 +1,20 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --color-accent: #16a34a;
+  --color-accent-hover: #15803d;
+}
+
+.density-compact .density-padding {
+  padding: 0.5rem;
+}
+
+.density-compact .density-gap {
+  gap: 0.25rem;
+}
+
+.density-compact .density-text {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
