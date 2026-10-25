@@ -1,5 +1,6 @@
 package com.fitmonitor.routines.service
 
+import com.fitmonitor.common.exception.ResourceNotFoundException
 import com.fitmonitor.routines.dto.*
 import com.fitmonitor.routines.entity.WorkoutTemplateEntity
 import com.fitmonitor.routines.mapper.toEntity
@@ -22,7 +23,7 @@ class WorkoutTemplateService(
 
     fun getTemplateById(userId: String, templateId: String): WorkoutTemplateResponse {
         val template = repository.findByIdAndUserId(templateId, userId)
-            ?: throw IllegalArgumentException("Template not found")
+            ?: throw ResourceNotFoundException("Template not found")
         return template.toResponse()
     }
 
@@ -35,7 +36,7 @@ class WorkoutTemplateService(
     @Transactional
     fun updateTemplate(userId: String, templateId: String, request: CreateWorkoutTemplateRequest): WorkoutTemplateResponse {
         val template = repository.findByIdAndUserId(templateId, userId)
-            ?: throw IllegalArgumentException("Template not found")
+            ?: throw ResourceNotFoundException("Template not found")
         template.name = request.name
         template.exercisesJson = toJson(request.exercises)
         template.updatedAt = Instant.now()
@@ -45,7 +46,7 @@ class WorkoutTemplateService(
     @Transactional
     fun deleteTemplate(userId: String, templateId: String) {
         val template = repository.findByIdAndUserId(templateId, userId)
-            ?: throw IllegalArgumentException("Template not found")
+            ?: throw ResourceNotFoundException("Template not found")
         repository.delete(template)
     }
 }

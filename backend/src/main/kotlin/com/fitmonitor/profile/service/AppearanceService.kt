@@ -1,5 +1,6 @@
 package com.fitmonitor.profile.service
 
+import com.fitmonitor.common.exception.ResourceNotFoundException
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fitmonitor.profile.dto.ProfileResponse
 import com.fitmonitor.profile.mapper.toResponse
@@ -17,7 +18,7 @@ class AppearanceService(
     @Transactional
     fun updateAppearance(userId: String, appearanceMap: Map<String, Any>): ProfileResponse {
         val profile = userProfileRepository.findByUserId(userId)
-            ?: throw IllegalArgumentException("Profile not found")
+            ?: throw ResourceNotFoundException("Profile not found")
         profile.appearanceJson = mapper.writeValueAsString(appearanceMap)
         userProfileRepository.flush()
         return profile.toResponse()

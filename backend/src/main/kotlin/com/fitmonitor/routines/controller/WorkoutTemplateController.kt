@@ -4,6 +4,7 @@ import com.fitmonitor.common.security.SecurityUtils
 import com.fitmonitor.routines.dto.CreateWorkoutTemplateRequest
 import com.fitmonitor.routines.dto.WorkoutTemplateResponse
 import com.fitmonitor.routines.service.WorkoutTemplateService
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -26,7 +27,7 @@ class WorkoutTemplateController(
     }
 
     @PostMapping
-    fun createTemplate(@RequestBody request: CreateWorkoutTemplateRequest): ResponseEntity<WorkoutTemplateResponse> {
+    fun createTemplate(@Valid @RequestBody request: CreateWorkoutTemplateRequest): ResponseEntity<WorkoutTemplateResponse> {
         val userId = SecurityUtils.getCurrentUserId()
         return ResponseEntity.status(HttpStatus.CREATED).body(service.createTemplate(userId, request))
     }
@@ -34,7 +35,7 @@ class WorkoutTemplateController(
     @PutMapping("/{id}")
     fun updateTemplate(
         @PathVariable id: String,
-        @RequestBody request: CreateWorkoutTemplateRequest
+        @Valid @RequestBody request: CreateWorkoutTemplateRequest
     ): ResponseEntity<WorkoutTemplateResponse> {
         val userId = SecurityUtils.getCurrentUserId()
         return ResponseEntity.ok(service.updateTemplate(userId, id, request))

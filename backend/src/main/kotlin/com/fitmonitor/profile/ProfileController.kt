@@ -4,6 +4,7 @@ import com.fitmonitor.common.response.MessageResponse
 import com.fitmonitor.common.security.SecurityUtils
 import com.fitmonitor.profile.dto.*
 import com.fitmonitor.profile.service.ProfileService
+import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
@@ -26,7 +27,7 @@ class ProfileController(
     }
 
     @PatchMapping("/personal")
-    fun updatePersonal(@RequestBody request: PersonalInfoRequest): ResponseEntity<ProfileResponse> {
+    fun updatePersonal(@Valid @RequestBody request: PersonalInfoRequest): ResponseEntity<ProfileResponse> {
         val userId = SecurityUtils.getCurrentUserId()
         return ResponseEntity.ok(profileService.updatePersonal(userId, request))
     }

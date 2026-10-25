@@ -1,5 +1,6 @@
 package com.fitmonitor.profile.service
 
+import com.fitmonitor.common.exception.ResourceNotFoundException
 import com.fitmonitor.logs.repository.DailyLogRepository
 import com.fitmonitor.profile.dto.ProfileStatsResponse
 import com.fitmonitor.profile.repository.UserProfileRepository
@@ -15,7 +16,7 @@ class ProfileStatsService(
 ) {
     fun getProfileStats(userId: String): ProfileStatsResponse {
         val profile = userProfileRepository.findByUserId(userId)
-            ?: throw IllegalArgumentException("Profile not found")
+            ?: throw ResourceNotFoundException("Profile not found")
         val logs = dailyLogRepository.findByUserIdOrderByDateDesc(userId)
 
         val bmi = profile.weight / ((profile.height / 100.0) * (profile.height / 100.0))

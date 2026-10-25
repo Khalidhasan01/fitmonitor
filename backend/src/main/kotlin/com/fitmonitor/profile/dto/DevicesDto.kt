@@ -1,5 +1,7 @@
 package com.fitmonitor.profile.dto
 
+import jakarta.validation.constraints.NotBlank
+
 data class ConnectedDeviceResponse(
     val id: String,
     val name: String,
@@ -10,5 +12,6 @@ data class ConnectedDeviceResponse(
 )
 
 data class SyncFrequencyRequest(
+    @field:NotBlank
     val syncFrequency: String
 )
