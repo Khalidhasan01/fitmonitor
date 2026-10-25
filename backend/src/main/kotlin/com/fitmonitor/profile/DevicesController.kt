@@ -3,6 +3,7 @@ package com.fitmonitor.profile
 import com.fitmonitor.common.security.SecurityUtils
 import com.fitmonitor.profile.dto.*
 import com.fitmonitor.profile.service.DevicesService
+import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -44,7 +45,7 @@ class DevicesController(
     @PatchMapping("/devices/{deviceId}/sync-frequency")
     fun updateDeviceSyncFrequency(
         @PathVariable deviceId: String,
-        @RequestBody request: SyncFrequencyRequest
+        @Valid @RequestBody request: SyncFrequencyRequest
     ): ResponseEntity<ProfileResponse> {
         val userId = SecurityUtils.getCurrentUserId()
         return ResponseEntity.ok(devicesService.updateDeviceSyncFrequency(userId, deviceId, request.syncFrequency))

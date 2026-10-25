@@ -8,18 +8,18 @@ data class LoginRequest(
     @field:NotBlank @field:Email
     val email: String,
 
-    @field:NotBlank @field:Size(min = 6)
+    @field:NotBlank @field:Size(min = 6, max = 128)
     val password: String
 )
 
 data class SignupRequest(
-    @field:NotBlank
+    @field:NotBlank @field:Size(max = 100)
     val name: String,
 
     @field:NotBlank @field:Email
     val email: String,
 
-    @field:NotBlank @field:Size(min = 6)
+    @field:NotBlank @field:Size(min = 6, max = 128)
     val password: String
 )
 
@@ -32,7 +32,7 @@ data class ResetPasswordRequest(
     @field:NotBlank
     val token: String,
 
-    @field:NotBlank @field:Size(min = 6)
+    @field:NotBlank @field:Size(min = 6, max = 128)
     val password: String
 )
 
