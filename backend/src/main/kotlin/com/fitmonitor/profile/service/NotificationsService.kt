@@ -1,5 +1,6 @@
 package com.fitmonitor.profile.service
 
+import com.fitmonitor.common.exception.ResourceNotFoundException
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fitmonitor.profile.dto.ProfileResponse
 import com.fitmonitor.profile.mapper.toResponse
@@ -17,7 +18,7 @@ class NotificationsService(
     @Transactional
     fun updateNotifications(userId: String, prefsMap: Map<String, Any>): ProfileResponse {
         val profile = userProfileRepository.findByUserId(userId)
-            ?: throw IllegalArgumentException("Profile not found")
+            ?: throw ResourceNotFoundException("Profile not found")
         profile.notificationPrefsJson = mapper.writeValueAsString(prefsMap)
         userProfileRepository.flush()
         return profile.toResponse()

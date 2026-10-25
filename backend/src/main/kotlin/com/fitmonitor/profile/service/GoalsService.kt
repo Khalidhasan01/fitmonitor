@@ -1,5 +1,6 @@
 package com.fitmonitor.profile.service
 
+import com.fitmonitor.common.exception.ResourceNotFoundException
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fitmonitor.profile.dto.GoalHistoryPageResponse
 import com.fitmonitor.profile.dto.ProfileResponse
@@ -18,7 +19,7 @@ class GoalsService(
     @Transactional
     fun updateGoals(userId: String, goalsMap: Map<String, Any>): ProfileResponse {
         val profile = userProfileRepository.findByUserId(userId)
-            ?: throw IllegalArgumentException("Profile not found")
+            ?: throw ResourceNotFoundException("Profile not found")
         profile.goalsJson = com.fasterxml.jackson.databind.ObjectMapper().writeValueAsString(goalsMap)
         userProfileRepository.flush()
         return profile.toResponse()
@@ -26,7 +27,7 @@ class GoalsService(
 
     fun getGoalHistory(userId: String, page: Int, size: Int): GoalHistoryPageResponse {
         val profile = userProfileRepository.findByUserId(userId)
-            ?: throw IllegalArgumentException("Profile not found")
+            ?: throw ResourceNotFoundException("Profile not found")
         val goals = parseJson(profile.goalsJson, object : TypeReference<GoalsData>() {})
         val allHistory = goals.history
         val total = allHistory.size
