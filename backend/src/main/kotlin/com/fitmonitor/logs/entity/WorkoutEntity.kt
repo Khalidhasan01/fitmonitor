@@ -8,7 +8,7 @@ import java.time.LocalDate
 @Table(name = "workouts")
 class WorkoutEntity(
     @Id @UuidGenerator
-    var id: String = "",
+    var id: String? = null,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "daily_log_id")

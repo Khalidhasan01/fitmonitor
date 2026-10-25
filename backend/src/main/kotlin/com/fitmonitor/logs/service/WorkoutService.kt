@@ -46,7 +46,7 @@ class WorkoutService(
         val workout = WorkoutEntity(dailyLog = log, date = date)
         fillExercises(userId, workout, request)
         log.workouts.add(workout)
-        dailyLogRepository.saveAndFlush(log)
+        dailyLogRepository.flush() // cascades PERSIST so the new rows get their ids
         return workout.toResponse()
     }
 
@@ -56,16 +56,15 @@ class WorkoutService(
         val date = LogService.parseDate(request.date)
         if (date != workout.date) {
             // Moving a workout to another day re-homes it under that day's log.
-            val oldLog = workout.dailyLog
             val newLog = dailyLogRepository.findByUserIdAndDate(userId, date) ?: createEmptyLog(userId, date)
-            oldLog.workouts.remove(workout)
+            // The old log's collection is deliberately left alone: removing from it would trigger orphan deletion.
             workout.dailyLog = newLog
             workout.date = date
             newLog.workouts.add(workout)
         }
         workout.exercises.clear()
         fillExercises(userId, workout, request)
-        workoutRepository.saveAndFlush(workout)
+        workoutRepository.flush()
         return workout.toResponse()
     }
 

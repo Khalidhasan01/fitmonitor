@@ -8,7 +8,7 @@ import org.hibernate.annotations.UuidGenerator
 @Table(name = "exercise_definitions")
 class ExerciseDefinitionEntity(
     @Id @UuidGenerator
-    var id: String = "",
+    var id: String? = null,
 
     @Column(nullable = false)
     var name: String = "",

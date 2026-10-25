@@ -12,7 +12,7 @@ import java.time.LocalDate
 )
 class DailyLogEntity(
     @Id @UuidGenerator
-    var id: String = "",
+    var id: String? = null,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id")

@@ -7,7 +7,7 @@ import org.hibernate.annotations.UuidGenerator
 @Table(name = "meals")
 class MealEntity(
     @Id @UuidGenerator
-    var id: String = "",
+    var id: String? = null,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "daily_log_id")

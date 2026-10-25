@@ -25,6 +25,8 @@ class DataInitializer(
 
     private val rng = Random(42)
 
+    // @Transactional must sit on the entry point: calls between methods of this bean bypass the proxy.
+    @Transactional
     override fun run(vararg args: String?) {
         seedExerciseDefinitions()
 
@@ -33,14 +35,12 @@ class DataInitializer(
         createDemoData()
     }
 
-    @Transactional
     fun seedExerciseDefinitions() {
         if (exerciseDefinitionRepository.count() > 0) return
 
         createExerciseDefinitions()
     }
 
-    @Transactional
     fun createDemoData() {
         val user = UserEntity(
             name = "Alex Johnson",

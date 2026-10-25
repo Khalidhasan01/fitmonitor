@@ -3,10 +3,10 @@ package com.fitmonitor.logs.mapper
 import com.fitmonitor.logs.dto.*
 import com.fitmonitor.logs.entity.*
 
-fun MealEntity.toResponse() = MealResponse(id, name, type, calories, protein, carbs, fat)
+fun MealEntity.toResponse() = MealResponse(requireNotNull(id), name, type, calories, protein, carbs, fat)
 
 fun ExerciseEntity.toResponse() = ExerciseResponse(
-    id = id,
+    id = requireNotNull(id),
     exerciseDefinitionId = exerciseDefinition?.id,
     name = name,
     muscleGroup = muscleGroup,
@@ -15,7 +15,7 @@ fun ExerciseEntity.toResponse() = ExerciseResponse(
 )
 
 fun WorkoutEntity.toResponse() = WorkoutResponse(
-    id = id,
+    id = requireNotNull(id),
     date = date.toString(),
     exercises = exercises.map { it.toResponse() }
 )
@@ -33,4 +33,4 @@ fun DailyLogEntity.toResponse() = DailyLogResponse(
     workouts = workouts.map { it.toResponse() }
 )
 
-fun ExerciseDefinitionEntity.toResponse() = ExerciseDefinitionResponse(id, name, muscleGroup)
+fun ExerciseDefinitionEntity.toResponse() = ExerciseDefinitionResponse(requireNotNull(id), name, muscleGroup)
